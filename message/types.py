@@ -1,4 +1,4 @@
-from typing import Annotated, Literal, Union
+from typing import Annotated, Literal, Union, Optional
 from typing_extensions import TypedDict
 from pydantic import Field, TypeAdapter
 
@@ -31,3 +31,14 @@ def make_image(url: str, width: int = 0, height: int = 0) -> ImageContent:
 
 def make_audio(url: str, duration_ms: int = 0) -> AudioContent:
     return {"type": "audio", "audio_url": url, "duration_ms": duration_ms}
+
+class Price(TypedDict, total=False):
+    current_price: float
+    original_price: float
+
+class DeliverySettings(TypedDict, total=False):
+    # 包邮\按距离计费\一口价\无需邮寄 四选一
+    choice: Literal["包邮", "按距离计费", "一口价", "无需邮寄"]
+    post_price: float
+    can_self_pickup: bool
+
